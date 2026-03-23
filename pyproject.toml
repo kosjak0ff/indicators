@@ -1,0 +1,8 @@
+[project]
+name = "crypto-indicators-digest"
+version = "0.1.0"
+description = "Daily Telegram digest for crypto market indicators."
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
