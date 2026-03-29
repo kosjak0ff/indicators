@@ -7,7 +7,11 @@ from zoneinfo import ZoneInfo
 from .config import Settings
 from .formatter import format_digest
 from .models import IndicatorFailure, IndicatorReading
-from .sources import fetch_altcoin_season, fetch_fear_greed
+from .sources import (
+    fetch_altcoin_season,
+    fetch_coinglass_bull_market_peak,
+    fetch_fear_greed,
+)
 from .telegram import send_message
 
 
@@ -15,7 +19,11 @@ Fetcher = Callable[[], IndicatorReading]
 
 
 def run_once(settings: Settings) -> str:
-    fetchers: list[Fetcher] = [fetch_altcoin_season, fetch_fear_greed]
+    fetchers: list[Fetcher] = [
+        fetch_altcoin_season,
+        fetch_fear_greed,
+        fetch_coinglass_bull_market_peak,
+    ]
     readings: list[IndicatorReading] = []
     failures: list[IndicatorFailure] = []
 
@@ -54,6 +62,8 @@ def _source_name_for_fetcher(fetcher: Fetcher) -> str:
         return "Altcoin Season Index"
     if fetcher is fetch_fear_greed:
         return "Fear & Greed Index"
+    if fetcher is fetch_coinglass_bull_market_peak:
+        return "Bull Market Peak Signals"
     return fetcher.__name__
 
 
@@ -62,4 +72,6 @@ def _source_url_for_fetcher(fetcher: Fetcher) -> str:
         return "https://www.blockchaincenter.net/en/altcoin-season-index/"
     if fetcher is fetch_fear_greed:
         return "https://alternative.me/crypto/fear-and-greed-index/"
+    if fetcher is fetch_coinglass_bull_market_peak:
+        return "https://www.coinglass.com/bull-market-peak-signals"
     return ""

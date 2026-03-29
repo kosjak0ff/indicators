@@ -6,7 +6,7 @@ from dataclasses import dataclass
 @dataclass(frozen=True)
 class IndicatorReading:
     name: str
-    value: int
+    value: int | str
     label: str
     source_url: str
 

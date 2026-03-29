@@ -1,15 +1,16 @@
 # Crypto Indicators Digest
 
-Small Python script that fetches two crypto market indicators and sends a daily summary into a Telegram chat thread.
+Small Python script that fetches crypto market indicators and sends a daily summary into a Telegram chat thread.
 
 ## Sources
 
 - Altcoin Season Index: `https://www.blockchaincenter.net/en/altcoin-season-index/`
 - Fear & Greed Index: `https://alternative.me/crypto/fear-and-greed-index/`
+- Bull Market Peak Signals: `https://www.coinglass.com/bull-market-peak-signals`
 
 ## What it does
 
-- fetches both indicators on demand
+- fetches all configured indicators on demand
 - formats a single Telegram message
 - posts to a configured chat and forum topic
 - supports a DST-aware local timezone via `TIMEZONE`
@@ -38,6 +39,8 @@ python -m venv .venv
 . .venv/bin/activate
 pip install -r requirements-dev.txt
 ```
+
+The CoinGlass source renders its values client-side, so local runs also require `node` and `google-chrome-stable` to be available on the machine.
 
 Run the digest manually:
 
