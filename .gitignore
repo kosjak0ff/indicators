@@ -5,3 +5,11 @@
 __pycache__
 .pytest_cache
 .venv
+
+# Local agent/workflow metadata
+AGENTS.md
+.AGENTS/
+tasks.json
+scripts/agentctl.py
+docs/agentctl.md
+docs/workflow/
