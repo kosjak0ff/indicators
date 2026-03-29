@@ -40,7 +40,7 @@ python -m venv .venv
 pip install -r requirements-dev.txt
 ```
 
-The CoinGlass source renders its values client-side, so local runs also require `node` and `google-chrome-stable` to be available on the machine.
+The CoinGlass source uses the public page only, so local runs require `node` and a Chrome-compatible browser. The renderer checks `CHROME_BIN` first and then common binaries such as `google-chrome-stable`, `google-chrome`, `chromium`, and `chromium-browser`.
 
 Run the digest manually:
 

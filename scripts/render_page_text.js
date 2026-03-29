@@ -3,6 +3,59 @@ const fs = require("fs");
 const http = require("http");
 const os = require("os");
 const path = require("path");
+const { accessSync, constants } = require("fs");
+
+const CHROME_CANDIDATES = [
+  process.env.CHROME_BIN,
+  "google-chrome-stable",
+  "google-chrome",
+  "chromium",
+  "chromium-browser",
+  "chrome",
+].filter(Boolean);
+
+function isExecutable(filePath) {
+  try {
+    accessSync(filePath, constants.X_OK);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function findExecutable(binary) {
+  if (binary.includes(path.sep)) {
+    return isExecutable(binary) ? binary : null;
+  }
+
+  const searchPath = process.env.PATH || "";
+  for (const directory of searchPath.split(path.delimiter)) {
+    if (!directory) {
+      continue;
+    }
+
+    const candidatePath = path.join(directory, binary);
+    if (isExecutable(candidatePath)) {
+      return candidatePath;
+    }
+  }
+
+  return null;
+}
+
+function resolveChromeBinary() {
+  for (const candidate of CHROME_CANDIDATES) {
+    const resolved = findExecutable(candidate);
+    if (resolved) {
+      return resolved;
+    }
+  }
+
+  throw new Error(
+    `Could not find a Chrome/Chromium binary. Tried: ${CHROME_CANDIDATES.join(", ")}. ` +
+      "Install one of them or set CHROME_BIN to the browser path."
+  );
+}
 
 function getJson(url) {
   return new Promise((resolve, reject) => {
@@ -31,8 +84,9 @@ async function main() {
   }
 
   const userDataDir = fs.mkdtempSync(path.join(os.tmpdir(), "cg-render-"));
+  const chromeBinary = resolveChromeBinary();
   const chrome = spawn(
-    "google-chrome-stable",
+    chromeBinary,
     [
       "--headless=new",
       "--no-sandbox",
