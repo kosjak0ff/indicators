@@ -20,7 +20,6 @@ def load_dotenv(path: str | Path = ".env") -> None:
 
 @dataclass(frozen=True)
 class Settings:
-    timezone: str
     summary_hour: int
     summary_minute: int
     telegram_bot_token: str
@@ -31,7 +30,6 @@ class Settings:
     def from_env(cls) -> "Settings":
         load_dotenv()
 
-        timezone = _required("TIMEZONE")
         summary_hour = int(os.getenv("SUMMARY_HOUR", "6"))
         summary_minute = int(os.getenv("SUMMARY_MINUTE", "0"))
         if not 0 <= summary_hour <= 23:
@@ -41,7 +39,6 @@ class Settings:
 
         thread_id_raw = os.getenv("TELEGRAM_MESSAGE_THREAD_ID")
         return cls(
-            timezone=timezone,
             summary_hour=summary_hour,
             summary_minute=summary_minute,
             telegram_bot_token=_required("TELEGRAM_BOT_TOKEN"),

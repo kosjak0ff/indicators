@@ -1,7 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime
-from zoneinfo import ZoneInfo
+from datetime import datetime, timezone
 
 from .models import IndicatorFailure, IndicatorReading
 
@@ -11,13 +10,10 @@ def format_digest(
     readings: list[IndicatorReading],
     failures: list[IndicatorFailure],
     now: datetime,
-    timezone_name: str,
 ) -> str:
-    local_now = now.astimezone(ZoneInfo(timezone_name))
-
     lines = [
         "Daily crypto indicators digest",
-        f"Scheduled time: {local_now:%Y-%m-%d %H:%M %Z}",
+        f"Scheduled time: {now.astimezone(timezone.utc):%Y-%m-%d %H:%M %Z}",
         "",
     ]
 

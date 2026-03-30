@@ -28,10 +28,9 @@ def test_format_digest_lists_readings_and_failures() -> None:
             )
         ],
         now=datetime(2026, 3, 23, 4, 0, tzinfo=timezone.utc),
-        timezone_name="Europe/Riga",
     )
 
-    assert "Scheduled time: 2026-03-23 06:00 EET" in message
+    assert "Scheduled time: 2026-03-23 04:00 UTC" in message
     assert "- Altcoin Season Index: 55 (not Altcoin Season)" in message
     assert (
         "- Bull Market Peak Signals: Hit 0/30 (Average Progress 33.93%, Hold 100%)"

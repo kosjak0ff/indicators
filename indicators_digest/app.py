@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Callable
-from zoneinfo import ZoneInfo
 
 from .config import Settings
 from .formatter import format_digest
@@ -40,8 +39,7 @@ def run_once(settings: Settings) -> str:
     message = format_digest(
         readings=readings,
         failures=failures,
-        now=datetime.now(tz=ZoneInfo(settings.timezone)),
-        timezone_name=settings.timezone,
+        now=datetime.now(tz=timezone.utc),
     )
 
     send_message(

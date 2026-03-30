@@ -13,22 +13,19 @@ Small Python script that fetches crypto market indicators and sends a daily summ
 - fetches all configured indicators on demand
 - formats a single Telegram message
 - posts to a configured chat and forum topic
-- supports a DST-aware local timezone via `TIMEZONE`
+- uses UTC timestamps in the digest output
 
 ## Configuration
 
 Copy `.env.example` to `.env` and fill in the values:
 
 ```env
-TIMEZONE=Europe/Riga
 SUMMARY_HOUR=6
 SUMMARY_MINUTE=0
 TELEGRAM_BOT_TOKEN=123456:replace-me
 TELEGRAM_CHAT_ID=-1001234567890
 TELEGRAM_MESSAGE_THREAD_ID=42
 ```
-
-`TIMEZONE` should be an IANA timezone name such as `Europe/Riga`, `Europe/Berlin`, or `Europe/Vilnius`.
 
 ## Local run
 
@@ -91,15 +88,12 @@ Edit `.env`, then test the script:
 PYTHONPATH=. .venv/bin/python main.py run
 ```
 
-## Daily schedule at 06:00 local time with DST
-
-Use `CRON_TZ` with the same timezone you store in `.env`.
+## Daily schedule at 06:00 UTC
 
 Example crontab:
 
 ```cron
-CRON_TZ=Europe/Riga
+CRON_TZ=UTC
 0 6 * * * cd /path/to/indicators && PYTHONPATH=. .venv/bin/python main.py run >> /var/log/indicators.log 2>&1
 ```
-
-This keeps the run pinned to 06:00 local time even when DST changes.
+This keeps the run pinned to 06:00 UTC.
