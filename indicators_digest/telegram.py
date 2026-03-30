@@ -12,7 +12,12 @@ def send_message(
     text: str,
     message_thread_id: int | None = None,
 ) -> dict:
-    payload = {"chat_id": chat_id, "text": text}
+    payload = {
+        "chat_id": chat_id,
+        "text": text,
+        "parse_mode": "HTML",
+        "disable_web_page_preview": True,
+    }
     if message_thread_id is not None:
         payload["message_thread_id"] = message_thread_id
 

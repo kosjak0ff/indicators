@@ -39,7 +39,6 @@ def run_once(settings: Settings) -> str:
     message = format_digest(
         readings=readings,
         failures=failures,
-        now=datetime.now(tz=timezone.utc),
     )
 
     send_message(
