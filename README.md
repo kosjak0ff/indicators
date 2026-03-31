@@ -45,6 +45,31 @@ Run the digest manually:
 PYTHONPATH=. python main.py run
 ```
 
+Use manual values for one or more indicators when a source is unavailable:
+
+```bash
+cat > /tmp/manual-indicators.json <<'EOF'
+{
+  "altcoin_season": {
+    "value": 55,
+    "label": "not Altcoin Season"
+  },
+  "fear_greed": {
+    "value": 11,
+    "label": "Extreme Fear"
+  },
+  "bull_market_peak": {
+    "value": "Hit 0/30",
+    "label": "Average Progress 33.93%, Hold 100%"
+  }
+}
+EOF
+
+PYTHONPATH=. python main.py run --manual-indicators /tmp/manual-indicators.json
+```
+
+Any indicator listed in the JSON file is used instead of the live fetch for that run, which is useful when CoinGlass cannot be rendered locally.
+
 Print raw Telegram updates to discover identifiers:
 
 ```bash

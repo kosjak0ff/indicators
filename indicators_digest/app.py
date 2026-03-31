@@ -17,16 +17,25 @@ from .telegram import send_message
 Fetcher = Callable[[], IndicatorReading]
 
 
-def run_once(settings: Settings) -> str:
-    fetchers: list[Fetcher] = [
-        fetch_altcoin_season,
-        fetch_fear_greed,
-        fetch_coinglass_bull_market_peak,
+def run_once(
+    settings: Settings,
+    *,
+    manual_readings: dict[str, IndicatorReading] | None = None,
+) -> str:
+    sources: list[tuple[str, Fetcher]] = [
+        ("altcoin_season", fetch_altcoin_season),
+        ("fear_greed", fetch_fear_greed),
+        ("bull_market_peak", fetch_coinglass_bull_market_peak),
     ]
     readings: list[IndicatorReading] = []
     failures: list[IndicatorFailure] = []
+    manual_readings = manual_readings or {}
 
-    for fetcher in fetchers:
+    for source_key, fetcher in sources:
+        manual_reading = manual_readings.get(source_key)
+        if manual_reading is not None:
+            readings.append(manual_reading)
+            continue
         try:
             readings.append(fetcher())
         except Exception as exc:

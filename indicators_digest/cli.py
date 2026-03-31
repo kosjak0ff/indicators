@@ -3,9 +3,11 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from pathlib import Path
 
 from .app import run_once
 from .config import Settings, get_bot_token_from_env, load_dotenv
+from .overrides import load_manual_readings
 from .telegram import get_updates
 
 
@@ -15,7 +17,17 @@ def main(argv: list[str] | None = None) -> int:
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
 
-    subparsers.add_parser("run", help="Fetch indicators and send the digest to Telegram.")
+    run_parser = subparsers.add_parser(
+        "run", help="Fetch indicators and send the digest to Telegram."
+    )
+    run_parser.add_argument(
+        "--manual-indicators",
+        type=Path,
+        help=(
+            "Optional JSON file with manual indicator readings. Any listed entries "
+            "are used instead of live fetches."
+        ),
+    )
     subparsers.add_parser(
         "telegram-updates",
         help="Print raw Telegram updates to help discover chat and thread identifiers.",
@@ -27,7 +39,12 @@ def main(argv: list[str] | None = None) -> int:
     try:
         if args.command == "run":
             settings = Settings.from_env()
-            message = run_once(settings)
+            manual_readings = (
+                load_manual_readings(args.manual_indicators)
+                if args.manual_indicators
+                else None
+            )
+            message = run_once(settings, manual_readings=manual_readings)
             print(message)
             return 0
 
