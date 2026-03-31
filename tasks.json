@@ -71,7 +71,7 @@
       "id": "T-003",
       "title": "Add manual daily indicator overrides",
       "description": "Let the digest use manually supplied daily indicator values when an upstream source such as CoinGlass cannot be fetched automatically, so today’s report can still be generated with explicit fallback inputs.",
-      "status": "TODO",
+      "status": "DONE",
       "priority": "med",
       "owner": "PLANNER",
       "tags": [
@@ -86,14 +86,26 @@
         {
           "author": "PLANNER",
           "body": "Planned: add a manual override path for daily indicator values, with special handling for CoinGlass fetch failures so the digest can be generated from provided numbers when automation is unavailable."
+        },
+        {
+          "author": "CODER",
+          "body": "Start: implementing manual daily indicator overrides via CLI-provided JSON so the digest can fall back to user-supplied values for unavailable sources, especially CoinGlass."
+        },
+        {
+          "author": "REVIEWER",
+          "body": "Verified: .venv/bin/python -m pytest -q passed (6 passed). Reviewed the manual override flow, confirmed partial overrides skip only the specified source, and verified README plus workflow docs were updated."
         }
-      ]
+      ],
+      "commit": {
+        "hash": "7f9fb0b6db63b463b07827940244367ad5f9f294",
+        "message": "✨ T-003 Add manual indicator overrides"
+      }
     }
   ],
   "meta": {
     "schema_version": 1,
     "managed_by": "agentctl",
     "checksum_algo": "sha256",
-    "checksum": "6a7e0414ae9d2a1786a8818fd911e3a52766e68bf144024750cc9a7b319b6140"
+    "checksum": "e546bd5b2449038bc8e2f567e8d2b1bb482dbfc1de1caa215d481f085e931b11"
   }
 }
