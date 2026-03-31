@@ -1,0 +1,99 @@
+{
+  "tasks": [
+    {
+      "id": "T-001",
+      "title": "Build daily crypto indicators telegram digest",
+      "description": "Fetch Altcoin Season Index and Fear & Greed Index daily at 06:00 local timezone with DST support, format a summary, and send it to a configured Telegram chat thread from an Ubuntu VPS deployment.",
+      "status": "DONE",
+      "priority": "med",
+      "owner": "CODER",
+      "tags": [
+        "crypto",
+        "telegram",
+        "scheduler"
+      ],
+      "verify": [
+        "PYTHONPATH=. .venv/bin/python -m pytest -q"
+      ],
+      "comments": [
+        {
+          "author": "PLANNER",
+          "body": "Plan: implement a scheduled digest pipeline with source adapters, Telegram delivery, configuration, tests, and Ubuntu VPS setup docs."
+        },
+        {
+          "author": "CODER",
+          "body": "Start: building a Python CLI for daily crypto indicator digests with Telegram delivery, timezone-aware configuration, parsing adapters, and test coverage."
+        },
+        {
+          "author": "REVIEWER",
+          "body": "Verified: PYTHONPATH=. .venv/bin/python -m pytest -q passed (3 passed). CLI help and live source parsing both succeeded; README and workflow docs updated for Ubuntu VPS + DST-aware cron."
+        }
+      ],
+      "commit": {
+        "hash": "a2f736d0e313a9fc3d07fedd50784125b2413127",
+        "message": "✨ T-001 Build telegram digest script"
+      }
+    },
+    {
+      "id": "T-002",
+      "title": "Add CoinGlass bull market peak signals index",
+      "description": "Add a new CoinGlass-based market index to the Telegram digest that reports Hit, Average Progress, and one allocation metric from the bull market peak signals page (Hold % or Sell %), with parsing and tests.",
+      "status": "DONE",
+      "priority": "med",
+      "owner": "PLANNER",
+      "tags": [
+        "coinglass",
+        "digest"
+      ],
+      "verify": [
+        ".venv/bin/python -m pytest -q"
+      ],
+      "comments": [
+        {
+          "author": "PLANNER",
+          "body": "Planned: add CoinGlass bull market peak signals metrics to the digest, including Hit, Average Progress, and Hold % or Sell % based on what is reliably available from the page payload."
+        },
+        {
+          "author": "CODER",
+          "body": "Start: implementing CoinGlass bull market peak signals source, digest formatting for multi-metric output, and parser tests for Hit, Average Progress, and one allocation metric from the source payload."
+        },
+        {
+          "author": "REVIEWER",
+          "body": "Verified: .venv/bin/python -m pytest -q passed (4 passed). Confirmed the live CoinGlass fetcher returns Hit, Average Progress, and Hold values from the rendered page."
+        }
+      ],
+      "commit": {
+        "hash": "32b5c177c10adaae52d6cd9cfd41ccd897658210",
+        "message": "✨ T-002 Add CoinGlass peak signals index"
+      }
+    },
+    {
+      "id": "T-003",
+      "title": "Add manual daily indicator overrides",
+      "description": "Let the digest use manually supplied daily indicator values when an upstream source such as CoinGlass cannot be fetched automatically, so today’s report can still be generated with explicit fallback inputs.",
+      "status": "TODO",
+      "priority": "med",
+      "owner": "PLANNER",
+      "tags": [
+        "digest",
+        "fallback",
+        "manual-input"
+      ],
+      "verify": [
+        ".venv/bin/python -m pytest -q"
+      ],
+      "comments": [
+        {
+          "author": "PLANNER",
+          "body": "Planned: add a manual override path for daily indicator values, with special handling for CoinGlass fetch failures so the digest can be generated from provided numbers when automation is unavailable."
+        }
+      ]
+    }
+  ],
+  "meta": {
+    "schema_version": 1,
+    "managed_by": "agentctl",
+    "checksum_algo": "sha256",
+    "checksum": "6a7e0414ae9d2a1786a8818fd911e3a52766e68bf144024750cc9a7b319b6140"
+  }
+}
